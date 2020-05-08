@@ -1,0 +1,27 @@
+spring:
+  #bean加载重载重复override异常处理
+  main:
+      allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+      #是否启用服务发现
+        register-enabled: true
+        server-addr: 172.19.50.39:32710
+        enabled: true
+      config:
+        prefix: application
+        server-addr: 172.19.50.39:32710
+        group: MessageService
+        # 配置文件的格式，默认为properties
+        file-extension: yaml
+        # 读取nacos中心的配置文件，多配置用逗号,隔开，可以设置优先级
+        shared-dataids: application.yaml
+        # 需要实时刷新的配置文件,使用配置的类需要增加注解
+        refreshable-dataids: application.yaml
+        enabled: false
+
+  profiles:
+      active: dev
+  application:
+      name: MessageService

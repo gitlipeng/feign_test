@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        # 填写刚才我们新建 namespace 时生成的 id
+        namespace: dd12f3d0-2bd1-4ac9-a669-aa30c183c5f6
+      discovery:
+        namespace: dd12f3d0-2bd1-4ac9-a669-aa30c183c5f6

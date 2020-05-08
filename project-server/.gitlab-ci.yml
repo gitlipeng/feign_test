@@ -1,0 +1,38 @@
+variables:
+    var_project_folder: 'projectdemo-server'
+    var_git_url: 'https://git.movit-tech.com/generics/MessageService/projectdemo-server.git'
+    var_git_brach_dev: 'dev'
+    var_target_jar: 'projectdemo-api/target/projectdemo-server.jar'
+    var_image_name: 'projectdemo-server'
+
+    var_namespace_dev: 'infusion-dev'
+    var_service_name_dev: 'svc-projectdemo-service'
+
+    VAR_TAG_CMD: 'git describe --tags --abbrev=0'
+
+stages:
+- build
+- deploy
+#- sonar
+
+build-dev:
+  stage: build
+  script:
+  - ssh root@172.19.50.243 /home/cicd/make-java.sh $var_project_folder $var_git_url $var_git_brach_dev $var_target_jar $var_image_name
+  only:
+    - dev
+
+#sonar-dev:
+#  stage: sonar
+#  image: maven:3.5.4-jdk-8
+#  script:
+#  - mvn -Dmaven.test.skip=true --batch-mode verify sonar:sonar -Dsonar.host.url=http://172.19.50.58:9000 -Dsonar.login=dbdd5f8aa22b6c7a2eb20e7a07e3a647c4d868c6
+#  only:
+#    - dev
+
+deploy-dev:
+  stage: deploy
+  script:
+  - ssh root@172.18.50.116 /cicd/reset_pod.sh $var_namespace_dev $var_service_name_dev
+  only:
+    - dev
